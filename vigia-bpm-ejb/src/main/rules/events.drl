@@ -1,0 +1,29 @@
+#created on: 01-07-2014
+package com.rhiscom.vigia.rules
+
+import com.rhiscom.vigia.events.ProcessMessage
+import java.util.Map;
+import java.util.HashMap;
+import org.drools.runtime.process.ProcessInstance;
+import java.util.Date;
+
+declare MessageEvent
+    @role (event)
+   
+end
+
+
+rule "Process Fatal Error"
+    when
+     $m:  ProcessMessage( processState == ProcessMessage.PROCESS_STATE_ERROR, $pc : processCode) from entry-point "vigia-events" 
+    
+    then
+    
+        System.out.println(" >>> Starting Process");
+        System.out.println("" + $m.getProcessCode());
+      	ProcessInstance pi = kcontext.getKnowledgeRuntime().createProcessInstance("com.sample.bpmn.hello",null);
+       	kcontext.getKnowledgeRuntime().startProcessInstance(pi.getId());
+        
+end
+
+

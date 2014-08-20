@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:g="http://www.jboss.org/drools/flow/gpd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <process processType="Private" isExecutable="true" id="com.sample.bpmn.hello" name="Hello World" >
+
+    <!-- nodes -->
+    <startEvent id="_1" name="Start" />
+    <scriptTask id="_4" name="Script" scriptFormat="http://www.java.com/java" >
+      <script>System.out.println("HOLA LOCO");</script>
+    </scriptTask>
+    <endEvent id="_6" name="End" >
+        <terminateEventDefinition/>
+    </endEvent>
+    <task id="_7" name="Notification" tns:taskName="SendEmailWorkItemHandler" >
+      <ioSpecification>
+        <dataInput id="_7_messageInput" name="message" />
+        <dataInput id="_7_subjectInput" name="subject" />
+        <dataInput id="_7_fromInput" name="from" />
+        <inputSet>
+          <dataInputRefs>_7_messageInput</dataInputRefs>
+          <dataInputRefs>_7_subjectInput</dataInputRefs>
+          <dataInputRefs>_7_fromInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <targetRef>_7_messageInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">Evento Error recepcionado</from>
+          <to xsi:type="tFormalExpression">_7_messageInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_7_subjectInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">Evento TRXManager recepcionado</from>
+          <to xsi:type="tFormalExpression">_7_subjectInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_7_fromInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">vigia@rhiscom.cl</from>
+          <to xsi:type="tFormalExpression">_7_fromInput</to>
+        </assignment>
+      </dataInputAssociation>
+    </task>
+
+    <!-- connections -->
+    <sequenceFlow id="_1-_4" sourceRef="_1" targetRef="_4" />
+    <sequenceFlow id="_7-_6" sourceRef="_7" targetRef="_6" />
+    <sequenceFlow id="_4-_7" sourceRef="_4" targetRef="_7" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="com.sample.bpmn.hello" >
+      <bpmndi:BPMNShape bpmnElement="_1" >
+        <dc:Bounds x="16" y="16" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_4" >
+        <dc:Bounds x="101" y="16" width="80" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_6" >
+        <dc:Bounds x="322" y="20" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_7" >
+        <dc:Bounds x="206" y="19" width="100" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_1-_4" >
+        <di:waypoint x="40" y="40" />
+        <di:waypoint x="141" y="40" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7-_6" >
+        <di:waypoint x="256" y="43" />
+        <di:waypoint x="346" y="44" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4-_7" >
+        <di:waypoint x="141" y="40" />
+        <di:waypoint x="256" y="43" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>
